@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programación del lado del servidor - index</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-pastel: #FF9BB3;
+            --secondary-pastel: #B5A6FF;
+            --accent-pastel: #8AE8FF;
+            --yellow-pastel: #FFDE8A;
+            --dark-pastel: #6D5D7A;
+            --light-pastel: #F8F5FF;
+            --text-color: #33334E;
+            --text-light: #6D6D8A;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: white;
+            line-height: 1.7;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--dark-pastel);
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 30px rgba(109, 93, 122, 0.08);
+            padding: 1rem 0;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--light-pastel) 0%, #F0EBFF 100%);
+            padding: 8rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-section::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path fill="white" d="M0,0V7.23C0,65.52,268.63,112.77,600,112.77S1200,65.52,1200,7.23V0Z"></path></svg>');
+            background-size: cover;
+            background-position: bottom;
+            background-repeat: no-repeat;
+        }
+        
+        .cover-card {
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 10px 40px rgba(109, 93, 122, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            overflow: hidden;
+            background: white;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .cover-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(109, 93, 122, 0.12);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 500;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(181, 166, 255, 0.3);
+            transition: all 0.3s ease;
+            letter-spacing: 0.2px;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(181, 166, 255, 0.4);
+            color: white;
+        }
+        
+        .btn-outline {
+            background: white;
+            border: 1px solid var(--light-pastel);
+            color: var(--text-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        
+        .btn-outline:hover {
+            background: var(--light-pastel);
+            color: var(--text-color);
+        }
+        
+        .footer {
+            background: var(--dark-pastel);
+            color: white;
+            padding: 5rem 0 3rem;
+            margin-top: 5rem;
+        }
+        
+        .feature-box {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.03);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            height: 100%;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(109, 93, 122, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 1.75rem;
+            margin-bottom: 1.75rem;
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            border-radius: 2px;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--dark-pastel) !important;
+            font-size: 1.35rem;
+            letter-spacing: -0.5px;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-light) !important;
+            margin: 0 0.8rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--dark-pastel) !important;
+        }
+        
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .decorative-img {
+            border-radius: 16px;
+            box-shadow: 15px 15px 0px rgba(181, 166, 255, 0.15);
+            transition: all 0.4s ease;
+            margin-bottom: 2rem;
+        }
+        
+        .decorative-img:hover {
+            box-shadow: 20px 20px 0px rgba(181, 166, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .back-btn-container {
+            text-align: center;
+            margin: 4rem 0;
+        }
+        
+        .wave-divider {
+            position: relative;
+            height: 100px;
+            overflow: hidden;
+            margin-bottom: -1px;
+        }
+        
+        .wave-divider svg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .lead {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-code me-2"></i>Programación del Servidor
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#portada">Portada</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#temario">Temario</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Portada -->
+    <section id="portada" class="hero-section">
+        <div class="container text-center hero-content">
+            <h1 class="display-4 fw-bold mb-4">Programación del Lado del Servidor</h1>
+            <p class="lead mb-5">Melissa Denisse Flores García</p>
+        </div>
+    </section>
+
+    <!-- Wave Divider -->
+    <div class="wave-divider">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%236D5D7A"></path>
+            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="%236D5D7A"></path>
+            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%236D5D7A"></path>
+        </svg>
+    </div>
+
+    <!-- Temario -->
+    <div class="container my-5" id="temario">
+        <h2 class="text-center mb-5 section-title">Temario del Segundo Parcial</h2>
+        
+        <!-- Sección 1: Conceptos Fundamentales -->
+        <section class="mb-5">
+            <h3 class="mb-4"><i class="fas fa-cubes me-2"></i> Conceptos Fundamentales</h3>
+            <div class="row g-4">
+                <!-- Tecnologías de Web APIs -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h4>Tecnologías de Web APIs</h4>
+                        <p class="text-muted">Las Web APIs permiten la comunicación entre aplicaciones web y servicios externos.</p>
+                        <a href="queesunaapi.html" class="btn btn-primary btn-sm mt-3">
+                            <i class="fas fa-arrow-right me-2"></i>Ver contenido
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Desarrollo de una Web API -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <h4>Desarrollo de Web APIs</h4>
+                        <p class="text-muted">Creación de interfaces para comunicación entre aplicaciones mediante protocolos como HTTP.</p>
+                        <a href="desarrollowebapis.html" class="btn btn-primary btn-sm mt-3">
+                            <i class="fas fa-arrow-right me-2"></i>Ver contenido
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Microservicios -->
+                <div class="col-md-6 col-lg-4">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <h4>Microservicios</h4>
+                        <p class="text-muted">Arquitectura donde una aplicación se divide en servicios pequeños e independientes.</p>
+                        <a href="microservicios.html" class="btn btn-primary btn-sm mt-3">
+                            <i class="fas fa-arrow-right me-2"></i>Ver contenido
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Sección 2: Despliegue y Producción -->
+        <section class="mb-5">
+            <h3 class="mb-4"><i class="fas fa-cloud-upload-alt me-2"></i> Despliegue y Producción</h3>
+            <div class="row g-4">
+                <!-- Manejo de Contenedores -->
+                <div class="col-md-6">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                        <h4>Manejo de Contenedores</h4>
+                        <p class="text-muted">Gestión de aplicaciones en entornos aislados y portátiles usando Docker y Kubernetes.</p>
+                        <a href="contenedores.html" class="btn btn-primary btn-sm mt-3">
+                            <i class="fas fa-arrow-right me-2"></i>Ver contenido
+                        </a>
+                    </div>
+                </div>
+                
+                <!-- Desarrollo para la nube -->
+                <div class="col-md-6">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h4>Desarrollo de Aplicaciones para la Nube</h4>
+                        <p class="text-muted">Creación de aplicaciones optimizadas para ejecutarse en entornos cloud.</p>
+                        <a href="nube.html" class="btn btn-primary btn-sm mt-3">
+                            <i class="fas fa-arrow-right me-2"></i>Ver contenido
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <div class="text-center mt-5">
+            <a href="formulario.html" class="btn btn-primary btn-lg px-5">
+                <i class="fas fa-question-circle me-2"></i>Cuestionario
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <h3 class="mb-4">Programación del Lado del Servidor</h3>
+            <div class="social-icons mb-4">
+                <a href="#" class="text-white me-3"><i class="fab fa-github fa-2x"></i></a>
+                <a href="#" class="text-white me-3"><i class="fab fa-twitter fa-2x"></i></a>
+                <a href="#" class="text-white"><i class="fab fa-linkedin fa-2x"></i></a>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Efecto de animación al hacer scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const features = document.querySelectorAll('.feature-box');
+            const cards = document.querySelectorAll('.definition-card, .info-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            features.forEach(feature => {
+                feature.style.opacity = 0;
+                feature.style.transform = 'translateY(20px)';
+                feature.style.transition = 'all 0.6s ease';
+                observer.observe(feature);
+            });
+            
+            cards.forEach(card => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

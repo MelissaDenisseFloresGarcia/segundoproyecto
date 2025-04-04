@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contenedores</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-pastel: #FF9BB3;
+            --secondary-pastel: #B5A6FF;
+            --accent-pastel: #8AE8FF;
+            --yellow-pastel: #FFDE8A;
+            --dark-pastel: #6D5D7A;
+            --light-pastel: #F8F5FF;
+            --text-color: #33334E;
+            --text-light: #6D6D8A;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: white;
+            line-height: 1.7;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--dark-pastel);
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 30px rgba(109, 93, 122, 0.08);
+            padding: 1rem 0;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--light-pastel) 0%, #F0EBFF 100%);
+            padding: 8rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cover-card {
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 10px 40px rgba(109, 93, 122, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            overflow: hidden;
+            background: white;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .cover-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(109, 93, 122, 0.12);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 500;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(181, 166, 255, 0.3);
+            transition: all 0.3s ease;
+            letter-spacing: 0.2px;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(181, 166, 255, 0.4);
+            color: white;
+        }
+        
+        .feature-box {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.03);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            height: 100%;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(109, 93, 122, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 1.75rem;
+            margin-bottom: 1.75rem;
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            border-radius: 2px;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--dark-pastel) !important;
+            font-size: 1.35rem;
+            letter-spacing: -0.5px;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-light) !important;
+            margin: 0 0.8rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--dark-pastel) !important;
+        }
+        
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .decorative-img {
+            border-radius: 16px;
+            box-shadow: 15px 15px 0px rgba(181, 166, 255, 0.15);
+            transition: all 0.4s ease;
+            margin-bottom: 2rem;
+            max-width: 100%;
+            height: auto;
+        }
+        
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 16px;
+            margin: 2rem 0;
+        }
+        
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+        
+        th {
+            background-color: var(--light-pastel);
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background-color: rgba(181, 166, 255, 0.05);
+        }
+        
+        .back-btn {
+            margin: 3rem 0;
+            text-align: center;
+        }
+        
+        .img-comparison {
+            display: flex;
+            justify-content: space-between;
+            margin: 2rem 0;
+        }
+        
+        .img-comparison img {
+            width: 48%;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .architecture-img {
+            width: 100%;
+            border-radius: 12px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .code-block {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 2rem auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: var(--secondary-pastel);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+        
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            width: 50%;
+            box-sizing: border-box;
+        }
+        
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -12px;
+            background-color: white;
+            border: 4px solid var(--primary-pastel);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .left {
+            left: 0;
+        }
+        
+        .right {
+            left: 50%;
+        }
+        
+        .left::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            right: 30px;
+            border: medium solid var(--light-pastel);
+            border-width: 10px 0 10px 10px;
+            border-color: transparent transparent transparent white;
+        }
+        
+        .right::before {
+            content: " ";
+            height: 0;
+            position: absolute;
+            top: 22px;
+            width: 0;
+            z-index: 1;
+            left: 30px;
+            border: medium solid var(--light-pastel);
+            border-width: 10px 10px 10px 0;
+            border-color: transparent white transparent transparent;
+        }
+        
+        .right::after {
+            left: -12px;
+        }
+        
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-code me-2"></i>Programación del Servidor
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#portada">Portada</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html#temario">Temario</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="hero-content text-center">
+                <h1 class="display-4 fw-bold mb-4">Contenedores en el Desarrollo de Software</h1>
+                <p class="lead mb-5">Una solución eficiente para empaquetar y ejecutar aplicaciones en cualquier entorno</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contenido Principal -->
+    <div class="container my-5">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <!-- Introducción -->
+                <section class="mb-5">
+                    <h2 class="mb-4">¿Qué son los contenedores?</h2>
+                    <p class="mb-4">Los contenedores son unidades de software estándar que empaquetan código y todas sus dependencias para que la aplicación se ejecute de manera rápida y confiable de un entorno informático a otro. A diferencia de las máquinas virtuales tradicionales, los contenedores virtualizan el sistema operativo en lugar del hardware, lo que los hace mucho más ligeros y eficientes.</p>
+            
+                    <p>Un contenedor de software es una unidad independiente y ejecutable que incluye todo lo necesario para ejecutar una aplicación: código, tiempo de ejecución, herramientas del sistema, bibliotecas y configuraciones. Esto garantiza que la aplicación se ejecutará de la misma manera, independientemente del entorno en el que se implemente.</p>
+                </section>
+
+                <!-- Video Explicativo -->
+                <section class="mb-5">
+                    <h2 class="mb-4">Contenedores explicados</h2>
+                    <div class="video-container">
+                        <iframe src="https://www.youtube.com/embed/0qotVMX-J5s" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                    <p class="text-center text-muted mt-2">Video explicativo sobre contenedores y su importancia en el desarrollo moderno</p>
+                </section>
+
+                <!-- Historia -->
+                <section class="mb-5">
+                    <h2 class="mb-4">Evolución de los contenedores</h2>
+                    <div class="timeline">
+                        <div class="timeline-item left">
+                            <div class="timeline-content">
+                                <h4>1979 - Chroot</h4>
+                                <p>Primera forma de aislamiento de procesos en Unix, permitiendo cambiar el directorio raíz aparente para un proceso.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item right">
+                            <div class="timeline-content">
+                                <h4>2000 - FreeBSD Jails</h4>
+                                <p>Sistema de particionamiento que permite a los administradores particionar un sistema FreeBSD en varios subsistemas independientes.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item left">
+                            <div class="timeline-content">
+                                <h4>2004 - Solaris Containers</h4>
+                                <p>Primera implementación completa de contenedores en Solaris 10, combinando resource management y boundary separation.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item right">
+                            <div class="timeline-content">
+                                <h4>2008 - LXC</h4>
+                                <p>Primera implementación completa de contenedores para Linux, utilizando cgroups y namespaces del kernel.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item left">
+                            <div class="timeline-content">
+                                <h4>2013 - Docker</h4>
+                                <p>Revoluciona la tecnología de contenedores al hacerla accesible y fácil de usar para desarrolladores.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item right">
+                            <div class="timeline-content">
+                                <h4>2014 - Kubernetes</h4>
+                                <p>Sistema de orquestación de contenedores desarrollado por Google, ahora mantenido por la Cloud Native Computing Foundation.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Beneficios -->
+                <section class="mb-5">
+                    <h2 class="mb-4">Beneficios de los contenedores</h2>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fas fa-box-open"></i>
+                                </div>
+                                <h4>Portabilidad</h4>
+                                <p class="text-muted">Los contenedores pueden ejecutarse en cualquier lugar: en local, en la nube, en máquinas virtuales o en hardware físico. Una aplicación empaquetada en un contenedor puede transferirse fácilmente entre diferentes entornos sin cambios.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                </div>
+                                <h4>Eficiencia</h4>
+                                <p class="text-muted">Comparten el kernel del sistema operativo y no requieren un sistema operativo completo por aplicación. Esto significa menor uso de recursos, mayor densidad de aplicaciones por servidor y tiempos de inicio casi instantáneos.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fas fa-expand"></i>
+                                </div>
+                                <h4>Escalabilidad</h4>
+                                <p class="text-muted">Pueden escalarse rápida y fácilmente para manejar aumentos en la demanda. Herramientas como Kubernetes permiten el autoescalado basado en métricas de uso.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fas fa-shield-alt"></i>
+                                </div>
+                                <h4>Aislamiento</h4>
+                                <p class="text-muted">Proporcionan aislamiento de procesos y recursos, mejorando la seguridad. Cada contenedor tiene su propio sistema de archivos, espacio de red y espacio de procesos.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fas fa-sync-alt"></i>
+                                </div>
+                                <h4>Consistencia</h4>
+                                <p class="text-muted">Eliminan el problema de "funciona en mi máquina" al garantizar que el entorno de desarrollo, pruebas y producción sean idénticos.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fas fa-dollar-sign"></i>
+                                </div>
+                                <h4>Reducción de costos</h4>
+                                <p class="text-muted">Menor uso de recursos significa menor infraestructura necesaria, reduciendo costos de hardware, energía y licencias.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Arquitectura -->
+                <section class="mb-5">
+                    <h2 class="mb-4">Arquitectura de contenedores</h2>
+                    <img src="https://www.docker.com/wp-content/uploads/2022/03/Moby-logo.png" alt="Arquitectura Docker" class="architecture-img">
+                    <p>Los contenedores se basan en varias tecnologías del kernel de Linux:</p>
+                    <ul>
+                        <li><strong>Namespaces:</strong> Aíslan recursos como procesos, red, usuarios y sistemas de archivos</li>
+                        <li><strong>Control Groups (cgroups):</strong> Limitan y monitorean el uso de recursos como CPU, memoria y I/O</li>
+                        <li><strong>Union File Systems:</strong> Permiten capas de imágenes para eficiencia en almacenamiento</li>
+                        <li><strong>Container Runtime:</strong> Software responsable de ejecutar los contenedores (como containerd o runc)</li>
+                    </ul>
+                </section>
+
+                <!-- Comparación -->
+                <section class="mb-5">
+                    <h2 class="mb-4">Contenedores vs Máquinas Virtuales</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Característica</th>
+                                <th>Contenedores</th>
+                                <th>Máquinas Virtuales</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Tamaño</td>
+                                <td>MBs (pequeño)</td>
+                                <td>GBs (grande)</td>
+                            </tr>
+                            <tr>
+                                <td>Tiempo de inicio</td>
+                                <td>Segundos</td>
+                                <td>Minutos</td>
+                            </tr>
+                            <tr>
+                                <td>Rendimiento</td>
+                                <td>Casi nativo</td>
+                                <td>Hipervisor overhead</td>
+                            </tr>
+                            <tr>
+                                <td>Aislamiento</td>
+                                <td>Proceso</td>
+                                <td>Máquina completa</td>
+                            </tr>
+                            <tr>
+                                <td>Sistema Operativo</td>
+                                <td>Comparte el host</td>
+                                <td>Completo por VM</td>
+                            </tr>
+                            <tr>
+                                <td>Densidad</td>
+                                <td>Alta (decenas o cientos por host)</td>
+                                <td>Baja (pocas por host)</td>
+                            </tr>
+                            <tr>
+                                <td>Portabilidad</td>
+                                <td>Alta (misma arquitectura)</td>
+                                <td>Media (depende del hipervisor)</td>
+                            </tr>
+                            <tr>
+                                <td>Seguridad</td>
+                                <td>Aislamiento a nivel de proceso</td>
+                                <td>Fuerte aislamiento con hipervisor</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+
+                <!-- Casos de Uso -->
+                <section class="mb-5">
+                    <h2 class="mb-4">Casos de uso comunes</h2>
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fas fa-code-branch"></i>
+                                </div>
+                                <h4>Microservicios</h4>
+                                <p class="text-muted">Ideal para arquitecturas de microservicios donde cada servicio corre en su propio contenedor, permitiendo escalar, actualizar y desplegar servicios individualmente.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fas fa-cloud"></i>
+                                </div>
+                                <h4>CI/CD</h4>
+                                <p class="text-muted">Perfecto para pipelines de integración y despliegue continuo. Los contenedores garantizan que las pruebas se ejecuten en el mismo entorno que producción.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fas fa-server"></i>
+                                </div>
+                                <h4>Migración a la nube</h4>
+                                <p class="text-muted">Facilita la migración de aplicaciones a entornos cloud mediante el empaquetado de aplicaciones legacy en contenedores ("lift and shift").</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fas fa-laptop-code"></i>
+                                </div>
+                                <h4>Entornos de desarrollo</h4>
+                                <p class="text-muted">Permite a los desarrolladores trabajar en entornos consistentes, eliminando el "funciona en mi máquina".</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <h4>Procesamiento de datos</h4>
+                                <p class="text-muted">Para cargas de trabajo batch o de procesamiento de datos donde se necesitan múltiples instancias temporales.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fas fa-mobile-alt"></i>
+                                </div>
+                                <h4>Edge Computing</h4>
+                                <p class="text-muted">Implementación de aplicaciones en ubicaciones remotas con recursos limitados gracias a la ligereza de los contenedores.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Ejemplo Docker -->
+                <section class="mb-5">
+                    <h2 class="mb-4">Ejemplo práctico con Docker</h2>
+                    <p>Un archivo Dockerfile típico para una aplicación Node.js podría verse así:</p>
+                    <div class="code-block">
+                        <code>
+                            # Usa una imagen base de Node.js<br>
+                            FROM node:14-alpine<br><br>
+                            
+                            # Establece el directorio de trabajo<br>
+                            WORKDIR /app<br><br>
+                            
+                            # Copia los archivos de dependencias<br>
+                            COPY package*.json ./<br><br>
+                            
+                            # Instala las dependencias<br>
+                            RUN npm install<br><br>
+                            
+                            # Copia el resto de los archivos de la aplicación<br>
+                            COPY . .<br><br>
+                            
+                            # Expone el puerto que usa la aplicación<br>
+                            EXPOSE 3000<br><br>
+                            
+                            # Comando para ejecutar la aplicación<br>
+                            CMD ["node", "app.js"]
+                        </code>
+                    </div>
+                    <p>Para construir y ejecutar este contenedor:</p>
+                    <div class="code-block">
+                        <code>
+                            # Construir la imagen<br>
+                            docker build -t my-node-app .<br><br>
+                            
+                            # Ejecutar el contenedor<br>
+                            docker run -p 3000:3000 -d my-node-app
+                        </code>
+                    </div>
+                </section>
+
+                <!-- Herramientas -->
+                <section class="mb-5">
+                    <h2 class="mb-4">Ecosistema de contenedores</h2>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fab fa-docker"></i>
+                                </div>
+                                <h4>Docker</h4>
+                                <p class="text-muted">La plataforma más popular para crear, compartir y ejecutar contenedores. Incluye:</p>
+                                <ul>
+                                    <li>Docker Engine: runtime para contenedores</li>
+                                    <li>Docker CLI: interfaz de línea de comandos</li>
+                                    <li>Docker Hub: repositorio de imágenes</li>
+                                    <li>Docker Compose: para aplicaciones multi-contenedor</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fas fa-chess-board"></i>
+                                </div>
+                                <h4>Kubernetes</h4>
+                                <p class="text-muted">Sistema de orquestación para automatizar el despliegue, escalado y gestión de contenedores. Características:</p>
+                                <ul>
+                                    <li>Autoescalado horizontal</li>
+                                    <li>Balanceo de carga y descubrimiento de servicios</li>
+                                    <li>Auto-reparación (self-healing)</li>
+                                    <li>Rollouts y rollbacks automatizados</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fab fa-redhat"></i>
+                                </div>
+                                <h4>Podman</h4>
+                                <p class="text-muted">Alternativa a Docker que no requiere un daemon, con compatibilidad con Docker CLI y mayor enfoque en seguridad.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <div class="feature-icon">
+                                    <i class="fas fa-project-diagram"></i>
+                                </div>
+                                <h4>Service Mesh</h4>
+                                <p class="text-muted">Soluciones como Istio o Linkerd que añaden capacidades de observabilidad, seguridad y control de tráfico entre contenedores.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Mejores prácticas -->
+                <section class="mb-5">
+                    <h2 class="mb-4">Mejores prácticas con contenedores</h2>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <h4><i class="fas fa-check-circle text-success me-2"></i>Hacer</h4>
+                                <ul>
+                                    <li>Usar imágenes base oficiales y mantenidas</li>
+                                    <li>Minimizar el tamaño de las imágenes (multi-stage builds)</li>
+                                    <li>Ejecutar procesos como usuario no root</li>
+                                    <li>Usar .dockerignore para excluir archivos innecesarios</li>
+                                    <li>Taggear imágenes apropiadamente</li>
+                                    <li>Limitar recursos (CPU, memoria) por contenedor</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="feature-box">
+                                <h4><i class="fas fa-times-circle text-danger me-2"></i>No hacer</h4>
+                                <ul>
+                                    <li>No almacenar datos persistentes en el contenedor</li>
+                                    <li>No usar la última tag (latest) en producción</li>
+                                    <li>No ejecutar múltiples procesos por contenedor</li>
+                                    <li>No incluir credenciales en las imágenes</li>
+                                    <li>No exponer puertos innecesarios</li>
+                                    <li>No ejecutar como root cuando no es necesario</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Futuro -->
+                <section class="mb-5">
+                    <h2 class="mb-4">El futuro de los contenedores</h2>
+                    <p>La tecnología de contenedores continúa evolucionando con nuevas tendencias:</p>
+                    <ul>
+                        <li><strong>Wasm (WebAssembly):</strong> Contenedores ultra-ligeros basados en WebAssembly con tiempos de inicio en milisegundos</li>
+                        <li><strong>eBPF:</strong> Tecnología del kernel para mejorar la observabilidad y seguridad de contenedores</li>
+                        <li><strong>Serverless con contenedores:</strong> Plataformas como AWS Fargate o Google Cloud Run que abstraen la infraestructura</li>
+                        <li><strong>GitOps:</strong> Gestión declarativa de infraestructura usando repositorios Git como fuente de verdad</li>
+                        <li><strong>Contenedores confidenciales:</strong> Técnicas de encriptación para mayor seguridad en entornos multi-tenant</li>
+                    </ul>
+                </section>
+
+                <!-- Botón de regreso -->
+                <div class="back-btn">
+                    <a href="index.html" class="btn btn-primary btn-lg px-5">
+                        <i class="fas fa-home me-2"></i>Volver al Inicio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Efecto de animación al hacer scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const features = document.querySelectorAll('.feature-box, .timeline-item');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            features.forEach(feature => {
+                feature.style.opacity = 0;
+                feature.style.transform = 'translateY(20px)';
+                feature.style.transition = 'all 0.6s ease';
+                observer.observe(feature);
+            });
+        });
+    </script>
+</body>
+</html>

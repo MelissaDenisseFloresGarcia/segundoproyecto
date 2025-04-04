@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tecnologías de Web APIs</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-pastel: #FF9BB3;
+            --secondary-pastel: #B5A6FF;
+            --accent-pastel: #8AE8FF;
+            --yellow-pastel: #FFDE8A;
+            --dark-pastel: #6D5D7A;
+            --light-pastel: #F8F5FF;
+            --text-color: #33334E;
+            --text-light: #6D6D8A;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: white;
+            line-height: 1.7;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--dark-pastel);
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 30px rgba(109, 93, 122, 0.08);
+            padding: 1rem 0;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--light-pastel) 0%, #F0EBFF 100%);
+            padding: 8rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-section::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path fill="white" d="M0,0V7.23C0,65.52,268.63,112.77,600,112.77S1200,65.52,1200,7.23V0Z"></path></svg>');
+            background-size: cover;
+            background-position: bottom;
+            background-repeat: no-repeat;
+        }
+        
+        .definition-card {
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 10px 40px rgba(109, 93, 122, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            overflow: hidden;
+            background: white;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .definition-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(109, 93, 122, 0.12);
+        }
+        
+        .definition-card .card-header {
+            background: white;
+            color: var(--dark-pastel);
+            padding: 1.75rem 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .api-icon {
+            font-size: 2rem;
+            color: var(--primary-pastel);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, rgba(255,155,179,0.1) 0%, rgba(181,166,255,0.1) 100%);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+        }
+        
+        .video-container {
+            background: white;
+            border-radius: 16px;
+            padding: 0;
+            box-shadow: 0 15px 50px rgba(109, 93, 122, 0.1);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 500;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(181, 166, 255, 0.3);
+            transition: all 0.3s ease;
+            letter-spacing: 0.2px;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(181, 166, 255, 0.4);
+            color: white;
+        }
+        
+        .btn-outline {
+            background: white;
+            border: 1px solid var(--light-pastel);
+            color: var(--text-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        
+        .btn-outline:hover {
+            background: var(--light-pastel);
+            color: var(--text-color);
+        }
+        
+        .footer {
+            background: var(--dark-pastel);
+            color: white;
+            padding: 5rem 0 3rem;
+            margin-top: 5rem;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: rgba(255,155,179,0.03);
+        }
+        
+        .table thead th {
+            background-color: var(--dark-pastel);
+            color: white;
+            border: none;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            padding: 1rem 1.5rem;
+        }
+        
+        .table {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .table td {
+            padding: 1.25rem 1.5rem;
+            vertical-align: middle;
+            border-color: rgba(0,0,0,0.03);
+        }
+        
+        .feature-box {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.03);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            height: 100%;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(109, 93, 122, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 1.75rem;
+            margin-bottom: 1.75rem;
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            border-radius: 2px;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--dark-pastel) !important;
+            font-size: 1.35rem;
+            letter-spacing: -0.5px;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-light) !important;
+            margin: 0 0.8rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--dark-pastel) !important;
+        }
+        
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .alert-primary {
+            background-color: rgba(255,155,179,0.1);
+            border-color: rgba(255,155,179,0.2);
+            color: var(--text-color);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-pastel);
+        }
+        
+        .badge {
+            padding: 0.5rem 0.8rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.75rem;
+            letter-spacing: 0.3px;
+        }
+        
+        .bg-primary {
+            background-color: var(--primary-pastel) !important;
+        }
+        
+        .bg-success {
+            background-color: var(--accent-pastel) !important;
+            color: var(--text-color) !important;
+        }
+        
+        .bg-danger {
+            background-color: var(--yellow-pastel) !important;
+            color: var(--text-color) !important;
+        }
+        
+        .bg-info {
+            background-color: var(--secondary-pastel) !important;
+        }
+        
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Animaciones */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        /* Imagen con borde decorativo */
+        .decorative-img {
+            border-radius: 16px;
+            box-shadow: 15px 15px 0px rgba(181, 166, 255, 0.15);
+            transition: all 0.4s ease;
+            margin-bottom: 2rem;
+        }
+        
+        .decorative-img:hover {
+            box-shadow: 20px 20px 0px rgba(181, 166, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        /* Botón Volver */
+        .back-btn-container {
+            text-align: center;
+            margin: 4rem 0;
+        }
+        
+        /* Efecto de onda decorativo mejorado */
+        .wave-divider {
+            position: relative;
+            height: 100px;
+            overflow: hidden;
+            margin-bottom: -1px;
+        }
+        
+        .wave-divider svg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* tipografía */
+        .lead {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+        
+        /* Efectos hover en la tabla */
+        .table-hover tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .table-hover tbody tr:hover {
+            transform: translateX(5px);
+        }
+        
+        /* Estilos para el modal de resumen */
+        .summary-modal .modal-content {
+            border-radius: 16px;
+            overflow: hidden;
+            border: none;
+        }
+        
+        .summary-modal .modal-header {
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            color: white;
+            border-bottom: none;
+        }
+        
+        .summary-modal .modal-body {
+            padding: 2rem;
+        }
+        
+        .summary-modal .close {
+            color: white;
+            text-shadow: none;
+            opacity: 0.8;
+        }
+        
+        .modal-image {
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .modal-section {
+            margin-bottom: 2rem;
+        }
+        
+        .modal-section-title {
+            color: var(--dark-pastel);
+            border-bottom: 2px solid var(--light-pastel);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tech-badge {
+            background-color: var(--light-pastel);
+            color: var(--dark-pastel);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            font-size: 0.85rem;
+        }
+        
+        /* estilos para secciones adicionales */
+        .info-section {
+            padding: 5rem 0;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .info-img-container {
+            position: relative;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+        
+        .info-img-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .info-img-container:hover .info-img-caption {
+            transform: translateY(0);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--light-pastel);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-pastel);
+            border: 2px solid white;
+        }
+        
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary-pastel);
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 16px;
+            background: white;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Bootstrap Component -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-code me-2"></i>Web APIs
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#importancia">Importancia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#ejemplos-api">Ejemplos</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#caracteristicas">Características</a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#summaryModal">
+                            <i class="fas fa-info-circle me-1"></i> Resumen
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero-section">
+        <div class="container text-center hero-content">
+            <h1 class="display-4 fw-bold mb-4">Tecnologías de Web APIs</h1>
+            <p class="lead mb-5">La revolución en la comunicación entre sistemas para la era digital</p>
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                 alt="Concepto de APIs" 
+                 class="img-fluid rounded decorative-img"
+                 style="max-height: 400px; object-fit: cover;">
+        </div>
+    </section>
+
+    <!-- Wave Divider -->
+    <div class="wave-divider">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%236D5D7A"></path>
+            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="%236D5D7A"></path>
+            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%236D5D7A"></path>
+        </svg>
+    </div>
+
+    <div class="container my-5">
+        <!-- Definition Card with Bootstrap Card Component -->
+        <div class="card definition-card mb-5">
+            <div class="card-header">
+                <h2 class="mb-0"><i class="fas fa-exchange-alt me-2"></i> ¿Qué es una API?</h2>
+            </div>
+            <div class="card-body">
+                <p class="card-text">Una <strong>API</strong> (Application Programming Interface o Interfaz de Programación de Aplicaciones) es un conjunto de protocolos, herramientas y definiciones que permite la comunicación entre diferentes aplicaciones de software. Funciona como un intermediario que facilita el intercambio de datos y funcionalidades entre sistemas distintos, sin necesidad de que los desarrolladores conozcan los detalles internos de su implementación.</p>
+                
+                <div class="row my-4 align-items-center">
+                    <div class="col-md-6 mb-4 mb-md-0">
+                        <div class="info-img-container">
+                            <img src="https://images.unsplash.com/photo-1629904853893-c2c8981a1dc5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                                 alt="API como puente" 
+                                 class="img-fluid rounded">
+                            <div class="info-img-caption">
+                                Las APIs actúan como puentes entre diferentes sistemas y plataformas
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="card-text">Las APIs actúan como contratos entre proveedores y usuarios de servicios:</p>
+                        <ul class="mb-3">
+                            <li><strong>Definen métodos de comunicación</strong> estandarizados</li>
+                            <li><strong>Especifican los formatos</strong> de solicitud y respuesta</li>
+                            <li><strong>Establecen reglas</strong> para el acceso a funcionalidades</li>
+                            <li><strong>Permiten la integración</strong> entre sistemas heterogéneos</li>
+                            <li><strong>Facilitan la escalabilidad</strong> de las aplicaciones</li>
+                        </ul>
+                        <div class="alert alert-primary mt-4">
+                            <h5 class="alert-heading"><i class="fas fa-lightbulb me-2"></i> Ejemplo práctico</h5>
+                            <p>Cuando usas una aplicación meteorológica en tu móvil, esta probablemente consume una API de servicios meteorológicos para obtener los datos actualizados, en lugar de generar la información por sí misma. De igual forma, cuando inicias sesión en un sitio web usando tu cuenta de Google o Facebook, estás utilizando sus APIs de autenticación.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Importancia de las APIs -->
+        <section id="importancia" class="info-section">
+            <div class="row">
+                <div class="col-lg-6">
+                    <div class="info-card">
+                        <h3 class="mb-4"><i class="fas fa-chart-line me-2"></i> Importancia en el desarrollo moderno</h3>
+                        <p>Las APIs se han convertido en el pilar fundamental del desarrollo de software moderno, permitiendo:</p>
+                        <ul>
+                            <li>Creación de ecosistemas digitales interconectados</li>
+                            <li>Desarrollo más rápido mediante la reutilización de servicios</li>
+                            <li>Innovación a través de la combinación de múltiples servicios</li>
+                            <li>Monetización de servicios y datos</li>
+                            <li>Adaptabilidad a diferentes plataformas y dispositivos</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-card">
+                        <h3 class="mb-4"><i class="fas fa-history me-2"></i> Evolución histórica</h3>
+                        <div class="timeline">
+                            <div class="timeline-item">
+                                <div class="timeline-date">2000</div>
+                                <h5>SOAP APIs</h5>
+                                <p>Primeras APIs basadas en XML con protocolos complejos</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2005</div>
+                                <h5>REST APIs</h5>
+                                <p>Revolución con arquitectura más simple basada en HTTP</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2015</div>
+                                <h5>GraphQL</h5>
+                                <p>Facebook introduce consultas más eficientes</p>
+                            </div>
+                            <div class="timeline-item">
+                                <div class="timeline-date">2020</div>
+                                <h5>APIs inteligentes</h5>
+                                <p>Integración con IA y aprendizaje automático</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-6">
+                    <div class="info-card">
+                        <h3 class="mb-4"><i class="fas fa-project-diagram me-2"></i> Arquitectura típica</h3>
+                        <div class="info-img-container">
+                            <img src="https://images.unsplash.com/photo-1639762681057-408e52192e55?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                                 alt="Arquitectura API" 
+                                 class="img-fluid rounded">
+                            <div class="info-img-caption">
+                                Diagrama de flujo de una arquitectura API moderna
+                            </div>
+                        </div>
+                        <p>Una API típica sigue la arquitectura cliente-servidor:</p>
+                        <ol>
+                            <li><strong>Cliente:</strong> Aplicación que realiza la solicitud</li>
+                            <li><strong>Endpoint:</strong> URL específica de la API</li>
+                            <li><strong>Método HTTP:</strong> GET, POST, PUT, DELETE</li>
+                            <li><strong>Headers:</strong> Metadatos de la solicitud</li>
+                            <li><strong>Body:</strong> Datos enviados (para POST/PUT)</li>
+                            <li><strong>Respuesta:</strong> Datos en formato JSON/XML</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-4">
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-number">83%</div>
+                        <p>del tráfico web es generado por APIs</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-number">69%</div>
+                        <p>de empresas usan APIs para integraciones</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="stat-card">
+                        <div class="stat-number">+50%</div>
+                        <p>crecimiento anual en uso de APIs</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section id="caracteristicas" class="my-5 py-4">
+            <h2 class="text-center mb-5 section-title">Características Principales</h2>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-lock"></i>
+                        </div>
+                        <h4>Seguridad Avanzada</h4>
+                        <p class="text-muted">Autenticación mediante tokens, claves API y protocolos como OAuth 2.0 para proteger los datos.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-tachometer-alt"></i>
+                        </div>
+                        <h4>Alto Rendimiento</h4>
+                        <p class="text-muted">Optimizadas para manejar miles de peticiones simultáneas con tiempos de respuesta mínimos.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-puzzle-piece"></i>
+                        </div>
+                        <h4>Integración Simple</h4>
+                        <p class="text-muted">Documentación clara y SDKs disponibles para los lenguajes de programación más populares.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                        <h4>Actualizaciones en Tiempo Real</h4>
+                        <p class="text-muted">Webhooks y sockets para notificaciones instantáneas de cambios en los datos.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Examples Section with Bootstrap Table Component -->
+        <section id="ejemplos-api" class="examples-section my-5 py-4">
+            <h2 class="text-center mb-5 section-title">Ejemplos de APIs Populares</h2>
+            
+            <div class="table-responsive">
+                <table class="table table-hover align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col" style="width: 30%">API</th>
+                            <th scope="col" style="width: 40%">Descripción</th>
+                            <th scope="col" style="width: 30%">Categoría</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong><i class="fab fa-google me-2"></i> Google APIs</strong></td>
+                            <td>Búsqueda, Gmail, Traductor, Maps y más de 200 servicios</td>
+                            <td><span class="badge bg-primary">Servicios Web</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong><i class="fab fa-paypal me-2"></i> PayPal</strong></td>
+                            <td>Procesamiento de pagos en línea seguro</td>
+                            <td><span class="badge bg-success">Finanzas</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong><i class="fab fa-youtube me-2"></i> YouTube</strong></td>
+                            <td>Incrustración de videos y gestión de contenido</td>
+                            <td><span class="badge bg-danger">Multimedia</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong><i class="fab fa-whatsapp me-2"></i> WhatsApp Business</strong></td>
+                            <td>Comunicación empresarial automatizada</td>
+                            <td><span class="badge bg-info">Mensajería</span></td>
+                        </tr>
+                        <tr>
+                            <td><strong><i class="fab fa-twitter me-2"></i> Twitter</strong></td>
+                            <td>Integración con redes sociales y análisis de tendencias</td>
+                            <td><span class="badge bg-primary">Social Media</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Video Section with Bootstrap Card Component -->
+        <section class="video-container my-5">
+            <div class="card border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3">
+                            <i class="fas fa-video feature-icon"></i>
+                        </div>
+                        <h2 class="mb-0">Cómo Funcionan las APIs</h2>
+                    </div>
+                    <div class="ratio ratio-16x9">
+                        <iframe class="rounded" src="https://www.youtube.com/embed/s7wmiS2mSXY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Botón Volver -->
+        <div class="back-btn-container">
+            <a href="index.html" class="btn btn-primary btn-lg px-4">
+                <i class="fas fa-arrow-left me-2"></i>Volver al inicio
+            </a>
+        </div>
+
+    </div> 
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <h3 class="mb-4">Explora el poder de las Web APIs</h3>
+            <div class="social-icons mb-4">
+                <a href="#" class="text-white me-3"><i class="fab fa-github fa-2x"></i></a>
+                <a href="#" class="text-white me-3"><i class="fab fa-twitter fa-2x"></i></a>
+                <a href="#" class="text-white"><i class="fab fa-linkedin fa-2x"></i></a>
+    </footer>
+
+    <!-- Modal de Resumen -->
+    <div class="modal fade summary-modal" id="summaryModal" tabindex="-1" aria-labelledby="summaryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="summaryModalLabel"><i class="fas fa-info-circle me-2"></i> Resumen Completo sobre Web APIs</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-section">
+                        <h4 class="modal-section-title">¿Qué es una API?</h4>
+                        <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" class="img-fluid modal-image" alt="Concepto API">
+                        <p>Una API (Interfaz de Programación de Aplicaciones) es un conjunto de definiciones y protocolos que permite la comunicación entre componentes de software. Actúa como intermediario entre diferentes sistemas, permitiendo que interactúen sin necesidad de conocer su implementación interna.</p>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <h4 class="modal-section-title">Tipos de APIs</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" class="img-fluid modal-image" alt="API REST">
+                                <h5>REST</h5>
+                                <p>Arquitectura basada en HTTP que utiliza métodos estándar (GET, POST, PUT, DELETE) y formatos como JSON.</p>
+                            </div>
+                            <div class="col-md-6">
+                                <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" class="img-fluid modal-image" alt="GraphQL">
+                                <h5>GraphQL</h5>
+                                <p>Lenguaje de consulta desarrollado por Facebook que permite a los clientes definir la estructura de los datos requeridos.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <h4 class="modal-section-title">Tecnologías Relacionadas</h4>
+                        <div>
+                            <span class="tech-badge"><i class="fas fa-check-circle me-1"></i> JSON</span>
+                            <span class="tech-badge"><i class="fas fa-check-circle me-1"></i> XML</span>
+                            <span class="tech-badge"><i class="fas fa-check-circle me-1"></i> OAuth</span>
+                            <span class="tech-badge"><i class="fas fa-check-circle me-1"></i> JWT</span>
+                            <span class="tech-badge"><i class="fas fa-check-circle me-1"></i> Swagger</span>
+                            <span class="tech-badge"><i class="fas fa-check-circle me-1"></i> Postman</span>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <h4 class="modal-section-title">Beneficios Clave</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <ul>
+                                    <li><strong>Eficiencia:</strong> Reutilización de componentes</li>
+                                    <li><strong>Escalabilidad:</strong> Fácil adaptación a mayor demanda</li>
+                                    <li><strong>Flexibilidad:</strong> Integración con múltiples plataformas</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul>
+                                    <li><strong>Seguridad:</strong> Control de acceso estandarizado</li>
+                                    <li><strong>Innovación:</strong> Permite crear nuevos servicios</li>
+                                    <li><strong>Monetización:</strong> Modelos de negocio basados en APIs</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <h4 class="modal-section-title">Estadísticas Relevantes</h4>
+                        <div class="row text-center">
+                            <div class="col-md-4">
+                                <h3 class="text-primary">83%</h3>
+                                <p>del tráfico web es generado por APIs</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h3 class="text-primary">69%</h3>
+                                <p>de empresas usan APIs para integraciones</p>
+                            </div>
+                            <div class="col-md-4">
+                                <h3 class="text-primary">+50%</h3>
+                                <p>crecimiento anual en uso de APIs</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Efecto de animación al hacer scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const features = document.querySelectorAll('.feature-box');
+            const cards = document.querySelectorAll('.definition-card, .info-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            features.forEach(feature => {
+                feature.style.opacity = 0;
+                feature.style.transform = 'translateY(20px)';
+                feature.style.transition = 'all 0.6s ease';
+                observer.observe(feature);
+            });
+            
+            cards.forEach(card => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

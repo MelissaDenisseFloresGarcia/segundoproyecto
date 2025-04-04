@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desarrollo de Web APIs</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-pastel: #FF9BB3;
+            --secondary-pastel: #B5A6FF;
+            --accent-pastel: #8AE8FF;
+            --yellow-pastel: #FFDE8A;
+            --dark-pastel: #6D5D7A;
+            --light-pastel: #F8F5FF;
+            --text-color: #33334E;
+            --text-light: #6D6D8A;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: white;
+            line-height: 1.7;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--dark-pastel);
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 30px rgba(109, 93, 122, 0.08);
+            padding: 1rem 0;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--light-pastel) 0%, #F0EBFF 100%);
+            padding: 8rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-section::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path fill="white" d="M0,0V7.23C0,65.52,268.63,112.77,600,112.77S1200,65.52,1200,7.23V0Z"></path></svg>');
+            background-size: cover;
+            background-position: bottom;
+            background-repeat: no-repeat;
+        }
+        
+        .definition-card {
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 10px 40px rgba(109, 93, 122, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            overflow: hidden;
+            background: white;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .definition-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(109, 93, 122, 0.12);
+        }
+        
+        .definition-card .card-header {
+            background: white;
+            color: var(--dark-pastel);
+            padding: 1.75rem 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .api-icon {
+            font-size: 2rem;
+            color: var(--primary-pastel);
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, rgba(255,155,179,0.1) 0%, rgba(181,166,255,0.1) 100%);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 18px;
+        }
+        
+        .video-container {
+            background: white;
+            border-radius: 16px;
+            padding: 0;
+            box-shadow: 0 15px 50px rgba(109, 93, 122, 0.1);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 500;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(181, 166, 255, 0.3);
+            transition: all 0.3s ease;
+            letter-spacing: 0.2px;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(181, 166, 255, 0.4);
+            color: white;
+        }
+        
+        .btn-outline {
+            background: white;
+            border: 1px solid var(--light-pastel);
+            color: var(--text-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        
+        .btn-outline:hover {
+            background: var(--light-pastel);
+            color: var(--text-color);
+        }
+        
+        .footer {
+            background: var(--dark-pastel);
+            color: white;
+            padding: 5rem 0 3rem;
+            margin-top: 5rem;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: rgba(255,155,179,0.03);
+        }
+        
+        .table thead th {
+            background-color: var(--dark-pastel);
+            color: white;
+            border: none;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            padding: 1rem 1.5rem;
+        }
+        
+        .table {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .table td {
+            padding: 1.25rem 1.5rem;
+            vertical-align: middle;
+            border-color: rgba(0,0,0,0.03);
+        }
+        
+        .feature-box {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.03);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            height: 100%;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(109, 93, 122, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 1.75rem;
+            margin-bottom: 1.75rem;
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            border-radius: 2px;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--dark-pastel) !important;
+            font-size: 1.35rem;
+            letter-spacing: -0.5px;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-light) !important;
+            margin: 0 0.8rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--dark-pastel) !important;
+        }
+        
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .alert-primary {
+            background-color: rgba(255,155,179,0.1);
+            border-color: rgba(255,155,179,0.2);
+            color: var(--text-color);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-pastel);
+        }
+        
+        .badge {
+            padding: 0.5rem 0.8rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.75rem;
+            letter-spacing: 0.3px;
+        }
+        
+        .bg-primary {
+            background-color: var(--primary-pastel) !important;
+        }
+        
+        .bg-success {
+            background-color: var(--accent-pastel) !important;
+            color: var(--text-color) !important;
+        }
+        
+        .bg-danger {
+            background-color: var(--yellow-pastel) !important;
+            color: var(--text-color) !important;
+        }
+        
+        .bg-info {
+            background-color: var(--secondary-pastel) !important;
+        }
+        
+        /* Scroll suave */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Animaciones */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        /* Imagen con borde decorativo */
+        .decorative-img {
+            border-radius: 16px;
+            box-shadow: 15px 15px 0px rgba(181, 166, 255, 0.15);
+            transition: all 0.4s ease;
+            margin-bottom: 2rem;
+        }
+        
+        .decorative-img:hover {
+            box-shadow: 20px 20px 0px rgba(181, 166, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        /* Botón Volver */
+        .back-btn-container {
+            text-align: center;
+            margin: 4rem 0;
+        }
+        
+        /* Efecto de onda decorativo mejorado */
+        .wave-divider {
+            position: relative;
+            height: 100px;
+            overflow: hidden;
+            margin-bottom: -1px;
+        }
+        
+        .wave-divider svg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        /* Mejoras en tipografía */
+        .lead {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+        
+        /* Efectos hover en la tabla */
+        .table-hover tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .table-hover tbody tr:hover {
+            transform: translateX(5px);
+        }
+        
+        /* Estilos para el modal de resumen */
+        .summary-modal .modal-content {
+            border-radius: 16px;
+            overflow: hidden;
+            border: none;
+        }
+        
+        .summary-modal .modal-header {
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            color: white;
+            border-bottom: none;
+        }
+        
+        .summary-modal .modal-body {
+            padding: 2rem;
+        }
+        
+        .summary-modal .close {
+            color: white;
+            text-shadow: none;
+            opacity: 0.8;
+        }
+        
+        .modal-image {
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .modal-section {
+            margin-bottom: 2rem;
+        }
+        
+        .modal-section-title {
+            color: var(--dark-pastel);
+            border-bottom: 2px solid var(--light-pastel);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tech-badge {
+            background-color: var(--light-pastel);
+            color: var(--dark-pastel);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            font-size: 0.85rem;
+        }
+        
+        /* Nuevos estilos para secciones adicionales */
+        .info-section {
+            padding: 5rem 0;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .info-img-container {
+            position: relative;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+        
+        .info-img-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .info-img-container:hover .info-img-caption {
+            transform: translateY(0);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--light-pastel);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-pastel);
+            border: 2px solid white;
+        }
+        
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary-pastel);
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 16px;
+            background: white;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Estilos para el proceso de desarrollo */
+        .process-step {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .process-step-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        .process-step-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        /* Estilos para las recomendaciones */
+        .recommendation-card {
+            border-left: 4px solid var(--primary-pastel);
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        /* Estilos para la sección de seguridad */
+        .security-badge {
+            background-color: var(--light-pastel);
+            color: var(--dark-pastel);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar Bootstrap Component -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-code me-2"></i>Desarrollo Web API
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#recomendaciones">Recomendaciones</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#proceso">Proceso</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#seguridad">Seguridad</a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#summaryModal">
+                            <i class="fas fa-info-circle me-1"></i> Resumen
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero-section">
+        <div class="container text-center hero-content">
+            <h1 class="display-4 fw-bold mb-4">Desarrollo de Web APIs</h1>
+            <p class="lead mb-5">Metodología, mejores prácticas y estándares para crear APIs robustas</p>
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                 alt="Concepto de APIs" 
+                 class="img-fluid rounded decorative-img"
+                 style="max-height: 400px; object-fit: cover;">
+        </div>
+    </section>
+
+    <!-- Wave Divider -->
+    <div class="wave-divider">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%236D5D7A"></path>
+            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="%236D5D7A"></path>
+            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%236D5D7A"></path>
+        </svg>
+    </div>
+
+    <div class="container my-5">
+        <!-- Recomendaciones Section -->
+        <section id="recomendaciones" class="mb-5">
+            <div class="card definition-card">
+                <div class="card-header">
+                    <h2 class="mb-0"><i class="fas fa-check-circle me-2"></i> Recomendaciones para el Desarrollo de APIs</h2>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="info-img-container">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                                     alt="Buenas prácticas para APIs" 
+                                     class="img-fluid rounded">
+                                <div class="info-img-caption">
+                                    Sigue estas recomendaciones para crear APIs de alta calidad
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="recommendation-card p-4 mb-4">
+                                <h4><i class="fas fa-bullseye text-primary me-2"></i> Definir objetivos claros</h4>
+                                <p>Antes de comenzar el desarrollo, es fundamental tener una comprensión clara de los problemas que la API intentará resolver y los usuarios a los que servirá.</p>
+                                <ul>
+                                    <li>Identificar los casos de uso principales</li>
+                                    <li>Determinar los datos que se manipularán</li>
+                                    <li>Establecer los requisitos de rendimiento</li>
+                                </ul>
+                            </div>
+                            
+                            <div class="recommendation-card p-4">
+                                <h4><i class="fas fa-gavel text-primary me-2"></i> Seguir estándares</h4>
+                                <p>Es importante seguir los estándares y convenciones de la industria al desarrollar una API web:</p>
+                                <ul>
+                                    <li>Principios REST para diseño de APIs</li>
+                                    <li>JSON como formato principal de intercambio</li>
+                                    <li>Convenciones de nomenclatura consistentes</li>
+                                    <li>Uso apropiado de métodos HTTP</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <div class="recommendation-card p-4 h-100">
+                                <h4><i class="fas fa-book text-primary me-2"></i> Documentación exhaustiva</h4>
+                                <p>La documentación clara y completa es esencial para que otros desarrolladores puedan entender cómo usar la API correctamente.</p>
+                                <ul>
+                                    <li>Swagger/OpenAPI</li>
+                                    <li>Postman</li>
+                                    <li>Redoc</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="recommendation-card p-4 h-100">
+                                <h4><i class="fas fa-shield-alt text-primary me-2"></i> Priorizar seguridad</h4>
+                                <p>La seguridad es un aspecto crucial en el desarrollo de APIs web. Medidas esenciales:</p>
+                                <ul>
+                                    <li>Autenticación (OAuth2, JWT)</li>
+                                    <li>Autorización basada en roles</li>
+                                    <li>Validación de entrada</li>
+                                    <li>Protección contra ataques comunes</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="recommendation-card p-4 h-100">
+                                <h4><i class="fas fa-code-branch text-primary me-2"></i> Versionar la API</h4>
+                                <p>A medida que la API evoluciona, es importante mantener la compatibilidad hacia atrás.</p>
+                                <ul>
+                                    <li>Versiones en la URL (v1, v2)</li>
+                                    <li>Encabezados Accept</li>
+                                    <li>Documentar cambios entre versiones</li>
+                                    <li>Mantener versiones antiguas</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Proceso Section -->
+        <section id="proceso" class="mb-5">
+            <h2 class="text-center mb-5 section-title">Proceso de Desarrollo</h2>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="info-img-container">
+                        <img src="https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                             alt="Proceso de desarrollo de API" 
+                             class="img-fluid rounded">
+                        <div class="info-img-caption">
+                            Sigue un proceso estructurado para desarrollar APIs robustas
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="process-step">
+                        <div class="process-step-number">1</div>
+                        <div class="process-step-content">
+                            <h4>Análisis de Requerimientos</h4>
+                            <p>Identificar los requisitos funcionales y no funcionales de la API, incluidos:</p>
+                            <ul>
+                                <li>Casos de uso principales</li>
+                                <li>Tipos de datos que se manipularán</li>
+                                <li>Requisitos de rendimiento y disponibilidad</li>
+                                <li>Audiencia objetivo</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="process-step">
+                        <div class="process-step-number">2</div>
+                        <div class="process-step-content">
+                            <h4>Planificación</h4>
+                            <p>Definir los objetivos del proyecto, asignación de recursos, estimación de tiempos y costos, y metodología de desarrollo:</p>
+                            <ul>
+                                <li>Selección de tecnologías</li>
+                                <li>Arquitectura general</li>
+                                <li>Plan de pruebas</li>
+                                <li>Estrategia de despliegue</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <div class="process-step">
+                        <div class="process-step-number">3</div>
+                        <div class="process-step-content">
+                            <h4>Diseño</h4>
+                            <p>Definir los componentes clave de la API:</p>
+                            <ul>
+                                <li>Endpoints y rutas</li>
+                                <li>Métodos HTTP admitidos</li>
+                                <li>Parámetros de solicitud y respuesta</li>
+                                <li>Esquema de autenticación</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="process-step">
+                        <div class="process-step-number">4</div>
+                        <div class="process-step-content">
+                            <h4>Implementación</h4>
+                            <p>Desarrollar la API siguiendo el diseño definido, utilizando herramientas y frameworks adecuados:</p>
+                            <ul>
+                                <li>Express.js para Node.js</li>
+                                <li>Flask o Django REST para Python</li>
+                                <li>Spring Boot para Java</li>
+                                <li>ASP.NET Core para C#</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="process-step">
+                        <div class="process-step-number">5</div>
+                        <div class="process-step-content">
+                            <h4>Pruebas</h4>
+                            <p>Realizar pruebas exhaustivas para garantizar calidad:</p>
+                            <ul>
+                                <li>Pruebas unitarias</li>
+                                <li>Pruebas de integración</li>
+                                <li>Pruebas de rendimiento</li>
+                                <li>Pruebas de seguridad</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <div class="process-step">
+                        <div class="process-step-number">6</div>
+                        <div class="process-step-content">
+                            <h4>Documentación</h4>
+                            <p>Crear documentación clara y detallada:</p>
+                            <ul>
+                                <li>Endpoints disponibles</li>
+                                <li>Parámetros requeridos</li>
+                                <li>Ejemplos de solicitudes/respuestas</li>
+                                <li>Códigos de estado y errores</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="process-step">
+                        <div class="process-step-number">7</div>
+                        <div class="process-step-content">
+                            <h4>Despliegue</h4>
+                            <p>Implementar la API en un entorno de producción:</p>
+                            <ul>
+                                <li>Configuración de servidores</li>
+                                <li>Balanceo de carga</li>
+                                <li>Escalabilidad</li>
+                                <li>Monitoreo inicial</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="process-step">
+                        <div class="process-step-number">8</div>
+                        <div class="process-step-content">
+                            <h4>Monitoreo</h4>
+                            <p>Establecer sistemas para mantener la API:</p>
+                            <ul>
+                                <li>Monitoreo de rendimiento</li>
+                                <li>Registro de errores</li>
+                                <li>Alertas tempranas</li>
+                                <li>Análisis de uso</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card mt-4">
+                <div class="card-body">
+                    <h4 class="mb-3"><i class="fas fa-link text-primary me-2"></i> Ejemplo de Endpoints para una API de Blog</h4>
+                    <div class="bg-light p-4 rounded">
+                        <p><strong>GET</strong> /api/v1/posts - Obtener lista de posts (paginados)</p>
+                        <p><strong>POST</strong> /api/v1/posts - Crear nuevo post (requiere autenticación)</p>
+                        <p><strong>GET</strong> /api/v1/posts/{id} - Obtener detalles de un post específico</p>
+                        <p><strong>PUT</strong> /api/v1/posts/{id} - Actualizar un post existente</p>
+                        <p><strong>DELETE</strong> /api/v1/posts/{id} - Eliminar un post</p>
+                        <p><strong>GET</strong> /api/v1/posts/{id}/comments - Obtener comentarios de un post</p>
+                        <p><strong>POST</strong> /api/v1/posts/{id}/comments - Añadir comentario a un post</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Seguridad Section -->
+        <section id="seguridad" class="mb-5">
+            <h2 class="text-center mb-5 section-title">Seguridad en Web APIs</h2>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <h4><i class="fas fa-user-lock text-primary me-2"></i> Autenticación y Autorización</h4>
+                            <p>Mecanismos para proteger el acceso a la API:</p>
+                            <div class="mb-3">
+                                <span class="security-badge">OAuth 2.0</span>
+                                <span class="security-badge">JWT</span>
+                                <span class="security-badge">API Keys</span>
+                                <span class="security-badge">OpenID Connect</span>
+                            </div>
+                            <ul>
+                                <li>Implementar flujos de autenticación seguros</li>
+                                <li>Usar tokens de acceso con tiempo de vida limitado</li>
+                                <li>Implementar refresh tokens</li>
+                                <li>Control de acceso basado en roles (RBAC)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="info-img-container">
+                        <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                             alt="Seguridad en APIs" 
+                             class="img-fluid rounded">
+                        <div class="info-img-caption">
+                            La seguridad debe ser una prioridad en el desarrollo de APIs
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <h4><i class="fas fa-filter text-primary me-2"></i> Validación de Entrada</h4>
+                            <p>Protección contra ataques comunes:</p>
+                            <ul>
+                                <li>Validar todos los parámetros de entrada</li>
+                                <li>Sanitizar datos para evitar inyecciones</li>
+                                <li>Limitar tamaño de payloads</li>
+                                <li>Validar tipos de datos y formatos</li>
+                                <li>Implementar rate limiting</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <h4><i class="fas fa-lock text-primary me-2"></i> Protección de Datos</h4>
+                            <p>Garantizar confidencialidad e integridad:</p>
+                            <ul>
+                                <li>Usar HTTPS obligatoriamente</li>
+                                <li>Cifrar datos sensibles</li>
+                                <li>No exponer información sensible en respuestas</li>
+                                <li>Implementar CORS adecuadamente</li>
+                                <li>Manejar errores sin revelar detalles internos</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <h4><i class="fas fa-eye-slash text-primary me-2"></i> Privacidad y Cumplimiento</h4>
+                            <p>Aspectos legales y regulatorios:</p>
+                            <ul>
+                                <li>Cumplir con GDPR, CCPA, etc.</li>
+                                <li>Implementar consentimiento para datos personales</li>
+                                <li>Registros de acceso y auditoría</li>
+                                <li>Políticas de retención de datos</li>
+                                <li>Mecanismos para el "derecho al olvido"</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Section -->
+        <section class="video-container my-5">
+            <div class="card border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3">
+                            <i class="fas fa-video feature-icon"></i>
+                        </div>
+                        <h2 class="mb-0">Cómo Diseñar APIs Seguras</h2>
+                    </div>
+                    <div class="ratio ratio-16x9">
+                        <iframe class="rounded" src="https://www.youtube.com/embed/videoseries?list=PL8iN9FQ7_jt6buW7SBD3yzjIp8NnJYrZl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Botón Volver -->
+        <div class="back-btn-container">
+            <a href="index.html" class="btn btn-primary btn-lg px-4">
+                <i class="fas fa-arrow-left me-2"></i>Volver al inicio
+            </a>
+        </div>
+
+    </div> 
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <h3 class="mb-4">Domina el desarrollo de Web APIs</h3>
+            <div class="social-icons mb-4">
+                <a href="#" class="text-white me-3"><i class="fab fa-github fa-2x"></i></a>
+                <a href="#" class="text-white me-3"><i class="fab fa-twitter fa-2x"></i></a>
+                <a href="#" class="text-white"><i class="fab fa-linkedin fa-2x"></i></a>
+    </footer>
+
+    <!-- Modal de Resumen -->
+    <div class="modal fade summary-modal" id="summaryModal" tabindex="-1" aria-labelledby="summaryModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="summaryModalLabel"><i class="fas fa-info-circle me-2"></i> Resumen de Desarrollo de Web APIs</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modal-section">
+                        <h4 class="modal-section-title">Recomendaciones Clave</h4>
+                        <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" class="img-fluid modal-image" alt="Recomendaciones API">
+                        <ul>
+                            <li><strong>Definir objetivos claros:</strong> Entender los problemas a resolver y los usuarios</li>
+                            <li><strong>Seguir estándares:</strong> REST, JSON, convenciones de nomenclatura</li>
+                            <li><strong>Documentación exhaustiva:</strong> Swagger, Postman, Redoc</li>
+                            <li><strong>Priorizar seguridad:</strong> Autenticación, validación, protección</li>
+                            <li><strong>Versionar la API:</strong> Mantener compatibilidad hacia atrás</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <h4 class="modal-section-title">Proceso de Desarrollo</h4>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img src="https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" class="img-fluid modal-image" alt="Proceso API">
+                                <h5>8 Etapas</h5>
+                                <ol>
+                                    <li>Análisis de Requerimientos</li>
+                                    <li>Planificación</li>
+                                    <li>Diseño</li>
+                                    <li>Implementación</li>
+                                </ol>
+                            </div>
+                            <div class="col-md-6">
+                                <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80" class="img-fluid modal-image" alt="Seguridad API">
+                                <h5>Continuación</h5>
+                                <ol start="5">
+                                    <li>Pruebas</li>
+                                    <li>Documentación</li>
+                                    <li>Despliegue</li>
+                                    <li>Monitoreo</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <h4 class="modal-section-title">Seguridad en APIs</h4>
+                        <div>
+                            <span class="tech-badge"><i class="fas fa-lock me-1"></i> Autenticación</span>
+                            <span class="tech-badge"><i class="fas fa-shield-alt me-1"></i> Autorización</span>
+                            <span class="tech-badge"><i class="fas fa-filter me-1"></i> Validación</span>
+                            <span class="tech-badge"><i class="fas fa-key me-1"></i> Cifrado</span>
+                            <span class="tech-badge"><i class="fas fa-user-shield me-1"></i> Privacidad</span>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6">
+                                <ul>
+                                    <li>OAuth 2.0 y JWT para autenticación</li>
+                                    <li>Validación exhaustiva de entrada</li>
+                                    <li>Uso obligatorio de HTTPS</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <ul>
+                                    <li>CORS configurado adecuadamente</li>
+                                    <li>Rate limiting para prevenir abuso</li>
+                                    <li>Cumplimiento con regulaciones</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal-section">
+                        <h4 class="modal-section-title">Tecnologías Relacionadas</h4>
+                        <div>
+                            <span class="tech-badge"><i class="fab fa-node-js me-1"></i> Express.js</span>
+                            <span class="tech-badge"><i class="fab fa-python me-1"></i> Flask/Django</span>
+                            <span class="tech-badge"><i class="fab fa-java me-1"></i> Spring Boot</span>
+                            <span class="tech-badge"><i class="fas fa-code me-1"></i> ASP.NET Core</span>
+                            <span class="tech-badge"><i class="fas fa-file-code me-1"></i> OpenAPI</span>
+                            <span class="tech-badge"><i class="fas fa-server me-1"></i> Postman</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Efecto de animación al hacer scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const features = document.querySelectorAll('.feature-box, .recommendation-card, .process-step-content');
+            const cards = document.querySelectorAll('.definition-card, .info-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            features.forEach(feature => {
+                feature.style.opacity = 0;
+                feature.style.transform = 'translateY(20px)';
+                feature.style.transition = 'all 0.6s ease';
+                observer.observe(feature);
+            });
+            
+            cards.forEach(card => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

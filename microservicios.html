@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microservicios</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-pastel: #FF9BB3;
+            --secondary-pastel: #B5A6FF;
+            --accent-pastel: #8AE8FF;
+            --yellow-pastel: #FFDE8A;
+            --dark-pastel: #6D5D7A;
+            --light-pastel: #F8F5FF;
+            --text-color: #33334E;
+            --text-light: #6D6D8A;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            color: var(--text-color);
+            background-color: white;
+            line-height: 1.7;
+        }
+        
+        h1, h2, h3, h4 {
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--dark-pastel);
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        
+        .navbar {
+            background-color: white;
+            box-shadow: 0 2px 30px rgba(109, 93, 122, 0.08);
+            padding: 1rem 0;
+        }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--light-pastel) 0%, #F0EBFF 100%);
+            padding: 8rem 0 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-section::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 150px;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path fill="white" d="M0,0V7.23C0,65.52,268.63,112.77,600,112.77S1200,65.52,1200,7.23V0Z"></path></svg>');
+            background-size: cover;
+            background-position: bottom;
+            background-repeat: no-repeat;
+        }
+        
+        .definition-card {
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 10px 40px rgba(109, 93, 122, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            overflow: hidden;
+            background: white;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .definition-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(109, 93, 122, 0.12);
+        }
+        
+        .definition-card .card-header {
+            background: white;
+            color: var(--dark-pastel);
+            padding: 1.75rem 2rem;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        
+        .feature-icon {
+            font-size: 1.75rem;
+            margin-bottom: 1.75rem;
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .video-container {
+            background: white;
+            border-radius: 16px;
+            padding: 0;
+            box-shadow: 0 15px 50px rgba(109, 93, 122, 0.1);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-weight: 500;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(181, 166, 255, 0.3);
+            transition: all 0.3s ease;
+            letter-spacing: 0.2px;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(181, 166, 255, 0.4);
+            color: white;
+        }
+        
+        .btn-outline {
+            background: white;
+            border: 1px solid var(--light-pastel);
+            color: var(--text-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        
+        .btn-outline:hover {
+            background: var(--light-pastel);
+            color: var(--text-color);
+        }
+        
+        .footer {
+            background: var(--dark-pastel);
+            color: white;
+            padding: 5rem 0 3rem;
+            margin-top: 5rem;
+        }
+        
+        .table-hover tbody tr:hover {
+            background-color: rgba(255,155,179,0.03);
+        }
+        
+        .table thead th {
+            background-color: var(--dark-pastel);
+            color: white;
+            border: none;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            padding: 1rem 1.5rem;
+        }
+        
+        .table {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.03);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .table td {
+            padding: 1.25rem 1.5rem;
+            vertical-align: middle;
+            border-color: rgba(0,0,0,0.03);
+        }
+        
+        .feature-box {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.03);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            height: 100%;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .feature-box:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(109, 93, 122, 0.1);
+        }
+        
+        .section-title {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            border-radius: 2px;
+        }
+        
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--dark-pastel) !important;
+            font-size: 1.35rem;
+            letter-spacing: -0.5px;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+            color: var(--text-light) !important;
+            margin: 0 0.8rem;
+            position: relative;
+            font-size: 0.95rem;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            color: var(--dark-pastel) !important;
+        }
+        
+        .nav-link::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after, .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .alert-primary {
+            background-color: rgba(255,155,179,0.1);
+            border-color: rgba(255,155,179,0.2);
+            color: var(--text-color);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary-pastel);
+        }
+        
+        .badge {
+            padding: 0.5rem 0.8rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.75rem;
+            letter-spacing: 0.3px;
+        }
+        
+        .bg-primary {
+            background-color: var(--primary-pastel) !important;
+        }
+        
+        .bg-success {
+            background-color: var(--accent-pastel) !important;
+            color: var(--text-color) !important;
+        }
+        
+        .bg-danger {
+            background-color: var(--yellow-pastel) !important;
+            color: var(--text-color) !important;
+        }
+        
+        .bg-info {
+            background-color: var(--secondary-pastel) !important;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .floating {
+            animation: float 4s ease-in-out infinite;
+        }
+        
+        .decorative-img {
+            border-radius: 16px;
+            box-shadow: 15px 15px 0px rgba(181, 166, 255, 0.15);
+            transition: all 0.4s ease;
+            margin-bottom: 2rem;
+        }
+        
+        .decorative-img:hover {
+            box-shadow: 20px 20px 0px rgba(181, 166, 255, 0.2);
+            transform: translateY(-5px);
+        }
+        
+        .back-btn-container {
+            text-align: center;
+            margin: 4rem 0;
+        }
+        
+        .wave-divider {
+            position: relative;
+            height: 100px;
+            overflow: hidden;
+            margin-bottom: -1px;
+        }
+        
+        .wave-divider svg {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .lead {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+        
+        .table-hover tbody tr {
+            transition: all 0.3s ease;
+        }
+        
+        .table-hover tbody tr:hover {
+            transform: translateX(5px);
+        }
+        
+        .summary-modal .modal-content {
+            border-radius: 16px;
+            overflow: hidden;
+            border: none;
+        }
+        
+        .summary-modal .modal-header {
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            color: white;
+            border-bottom: none;
+        }
+        
+        .summary-modal .modal-body {
+            padding: 2rem;
+        }
+        
+        .summary-modal .close {
+            color: white;
+            text-shadow: none;
+            opacity: 0.8;
+        }
+        
+        .modal-image {
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .modal-section {
+            margin-bottom: 2rem;
+        }
+        
+        .modal-section-title {
+            color: var(--dark-pastel);
+            border-bottom: 2px solid var(--light-pastel);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .tech-badge {
+            background-color: var(--light-pastel);
+            color: var(--dark-pastel);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            font-size: 0.85rem;
+        }
+        
+        .info-section {
+            padding: 5rem 0;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .info-img-container {
+            position: relative;
+            margin-bottom: 2rem;
+            overflow: hidden;
+            border-radius: 12px;
+        }
+        
+        .info-img-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 1rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .info-img-container:hover .info-img-caption {
+            transform: translateY(0);
+        }
+        
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+            margin-top: 3rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--light-pastel);
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary-pastel);
+            border: 2px solid white;
+        }
+        
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary-pastel);
+        }
+        
+        .stat-card {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 16px;
+            background: white;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+        
+        .process-step {
+            position: relative;
+            padding-left: 3rem;
+            margin-bottom: 2.5rem;
+        }
+        
+        .process-step-number {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        
+        .process-step-content {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .recommendation-card {
+            border-left: 4px solid var(--primary-pastel);
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        
+        .recommendation-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .security-badge {
+            background-color: var(--light-pastel);
+            color: var(--dark-pastel);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            font-size: 0.85rem;
+        }
+        
+        .tech-card {
+            border-radius: 16px;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            overflow: hidden;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .tech-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-server me-2"></i>Microservicios
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#inicio">Inicio</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#definicion">Definición</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#ventajas">Ventajas</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#comparacion">Comparación</a>
+                    </li>
+                    <li class="nav-item ms-3">
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#videoModal">
+                            <i class="fas fa-play-circle me-1"></i> Video
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero-section">
+        <div class="container text-center hero-content">
+            <h1 class="display-4 fw-bold mb-4">Arquitectura de Microservicios</h1>
+            <p class="lead mb-5">La evolución del desarrollo de software escalable y resiliente</p>
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                 alt="Concepto de Microservicios" 
+                 class="img-fluid rounded decorative-img"
+                 style="max-height: 400px; object-fit: cover;">
+        </div>
+    </section>
+
+    <!-- Wave Divider -->
+    <div class="wave-divider">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%236D5D7A"></path>
+            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="%236D5D7A"></path>
+            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%236D5D7A"></path>
+        </svg>
+    </div>
+
+    <div class="container my-5">
+        <!-- Definición Section -->
+        <section id="definicion" class="mb-5">
+            <div class="card definition-card">
+                <div class="card-header">
+                    <h2 class="mb-0"><i class="fas fa-code-branch me-2"></i> ¿Qué son los Microservicios?</h2>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Los microservicios son un enfoque arquitectónico para desarrollar aplicaciones como un conjunto de pequeños servicios independientes que:</p>
+                    
+                    <div class="row mt-4">
+                        <div class="col-md-6">
+                            <div class="info-img-container">
+                                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                                     alt="Construcción de microservicios" 
+                                     class="img-fluid rounded">
+                                <div class="info-img-caption">
+                                    Arquitectura modular para aplicaciones modernas
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <ul class="mb-3">
+                                <li class="mb-2"><strong>Operan de forma independiente</strong> - Cada servicio tiene su propio proceso</li>
+                                <li class="mb-2"><strong>Se comunican mediante APIs</strong> - Usando protocolos ligeros</li>
+                                <li class="mb-2"><strong>Gestionan su propia base de datos</strong> - Autonomía completa</li>
+                                <li class="mb-2"><strong>Se despliegan individualmente</strong> - Sin afectar otros componentes</li>
+                                <li class="mb-2"><strong>Se enfocan en una capacidad específica</strong> - Alta especialización</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <p class="card-text mt-4">Esta arquitectura permite a las organizaciones desarrollar, desplegar y escalar componentes de software de forma independiente, mejorando la agilidad y reduciendo los riesgos asociados con cambios en el sistema.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ventajas Section -->
+        <section id="ventajas" class="mb-5">
+            <h2 class="text-center mb-5 section-title">Beneficios Clave</h2>
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h4>Escalabilidad Granular</h4>
+                        <p class="text-muted">Escala solo los servicios que necesitan más recursos, optimizando costos y rendimiento.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4>Resiliencia Mejorada</h4>
+                        <p class="text-muted">Fallas aisladas no colapsan todo el sistema, mejorando la disponibilidad.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h4>Flexibilidad Tecnológica</h4>
+                        <p class="text-muted">Usa el mejor lenguaje y tecnología para cada servicio específico.</p>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="feature-box">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Desarrollo Paralelo</h4>
+                        <p class="text-muted">Equipos independientes pueden trabajar en diferentes servicios simultáneamente.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row mt-5">
+                <div class="col-md-6">
+                    <div class="info-img-container">
+                        <img src="https://images.unsplash.com/photo-1579389083078-4e7018379f7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                             alt="Arquitectura de microservicios" 
+                             class="img-fluid rounded">
+                        <div class="info-img-caption">
+                            Componentes independientes que trabajan juntos
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <h4><i class="fas fa-lightbulb text-primary me-2"></i> Casos Ideales para Microservicios</h4>
+                            <ul class="mt-3">
+                                <li class="mb-2">Aplicaciones complejas con múltiples componentes</li>
+                                <li class="mb-2">Sistemas que requieren alta disponibilidad</li>
+                                <li class="mb-2">Plataformas con equipos distribuidos</li>
+                                <li class="mb-2">Proyectos con requisitos cambiantes</li>
+                                <li class="mb-2">Modernización de aplicaciones legacy</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparación Section -->
+        <section id="comparacion" class="mb-5">
+            <h2 class="text-center mb-5 section-title">Microservicios vs Monolito</h2>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="info-img-container">
+                        <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                             alt="Comparación arquitecturas" 
+                             class="img-fluid rounded">
+                        <div class="info-img-caption">
+                            Elegir la arquitectura adecuada para cada proyecto
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Aspecto</th>
+                                    <th>Microservicios</th>
+                                    <th>Monolítico</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Despliegue</td>
+                                    <td>Independiente por servicio</td>
+                                    <td>Todo el sistema</td>
+                                </tr>
+                                <tr>
+                                    <td>Escalabilidad</td>
+                                    <td>Granular (por servicio)</td>
+                                    <td>Vertical (todo el sistema)</td>
+                                </tr>
+                                <tr>
+                                    <td>Tolerancia a fallos</td>
+                                    <td>Aislada</td>
+                                    <td>Crítica</td>
+                                </tr>
+                                <tr>
+                                    <td>Velocidad desarrollo</td>
+                                    <td>Rápida (equipos independientes)</td>
+                                    <td>Lenta (dependencias)</td>
+                                </tr>
+                                <tr>
+                                    <td>Complejidad</td>
+                                    <td>Operacional (orquestación)</td>
+                                    <td>De código (acoplamiento)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tecnologías Section -->
+        <section class="mb-5">
+            <h2 class="text-center mb-5 section-title">Tecnologías Clave</h2>
+            
+            <div class="row g-4">
+                <div class="col-md-3">
+                    <div class="tech-card text-center p-4">
+                        <div class="tech-icon">
+                            <i class="fab fa-docker"></i>
+                        </div>
+                        <h5>Contenedores</h5>
+                        <p class="small">Docker para empaquetar servicios</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tech-card text-center p-4">
+                        <div class="tech-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h5>Orquestación</h5>
+                        <p class="small">Kubernetes para gestión</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tech-card text-center p-4">
+                        <div class="tech-icon">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <h5>Service Mesh</h5>
+                        <p class="small">Istio/Linkerd para comunicaciones</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="tech-card text-center p-4">
+                        <div class="tech-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h5>Seguridad</h5>
+                        <p class="small">JWT, OAuth2 para APIs</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Casos de Éxito -->
+        <section class="mb-5">
+            <h2 class="text-center mb-5 section-title">Casos de Éxito</h2>
+            
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5><i class="fab fa-netflix text-danger me-2"></i> Netflix</h5>
+                            <p>Miles de microservicios gestionando streaming global con alta disponibilidad.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5><i class="fab fa-uber text-dark me-2"></i> Uber</h5>
+                            <p>Arquitectura distribuida para manejar millones de solicitudes diarias.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card h-100 border-0 shadow-sm">
+                        <div class="card-body">
+                            <h5><i class="fab fa-amazon text-warning me-2"></i> Amazon</h5>
+                            <p>Transformación de monolito a microservicios para escalar operaciones.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video Section -->
+        <section class="video-container my-5">
+            <div class="card border-0">
+                <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="me-3">
+                            <i class="fas fa-video feature-icon"></i>
+                        </div>
+                        <h2 class="mb-0">Introducción a Microservicios</h2>
+                    </div>
+                    <div class="ratio ratio-16x9">
+                        <iframe class="rounded" src="https://www.youtube.com/embed/videoseries?list=PL8iN9FQ7_jt6buW7SBD3yzjIp8NnJYrZl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Botón Volver -->
+        <div class="back-btn-container">
+            <a href="index.html" class="btn btn-primary btn-lg px-4">
+                <i class="fas fa-arrow-left me-2"></i>Volver al inicio
+            </a>
+        </div>
+
+    </div> 
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <h3 class="mb-4">Transforma tu arquitectura con Microservicios</h3>
+            <div class="social-icons mb-4">
+                <a href="#" class="text-white me-3"><i class="fab fa-github fa-2x"></i></a>
+                <a href="#" class="text-white me-3"><i class="fab fa-twitter fa-2x"></i></a>
+                <a href="#" class="text-white"><i class="fab fa-linkedin fa-2x"></i></a>
+    </footer>
+
+    <!-- Video Modal -->
+    <div class="modal fade summary-modal" id="videoModal" tabindex="-1" aria-labelledby="videoModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="videoModalLabel"><i class="fas fa-play-circle me-2"></i> Microservicios en Acción</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="ratio ratio-16x9">
+                        <iframe class="rounded" src="https://www.youtube.com/embed/videoseries?list=PL8iN9FQ7_jt6buW7SBD3yzjIp8NnJYrZl" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Intro Modal -->
+    <div class="modal fade summary-modal" id="introModal" tabindex="-1" aria-labelledby="introModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="introModalLabel"><i class="fas fa-info-circle me-2"></i> ¿Por qué Microservicios?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Los microservicios representan un cambio fundamental en cómo construimos aplicaciones:</p>
+                    <ul>
+                        <li class="mb-2"><strong>Agilidad:</strong> Actualizaciones frecuentes sin afectar todo el sistema</li>
+                        <li class="mb-2"><strong>Escalabilidad:</strong> Solo escalar los componentes necesarios</li>
+                        <li class="mb-2"><strong>Resiliencia:</strong> Fallos aislados no colapsan toda la aplicación</li>
+                        <li class="mb-2"><strong>Flexibilidad:</strong> Mejor tecnología para cada caso de uso</li>
+                    </ul>
+                    <div class="alert alert-primary mt-3">
+                        <i class="fas fa-lightbulb me-2"></i> Ideal para aplicaciones complejas con equipos distribuidos
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Entendido</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Efecto de animación al hacer scroll
+        document.addEventListener('DOMContentLoaded', function() {
+            const features = document.querySelectorAll('.feature-box, .tech-card');
+            const cards = document.querySelectorAll('.definition-card, .info-card');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+            
+            features.forEach(feature => {
+                feature.style.opacity = 0;
+                feature.style.transform = 'translateY(20px)';
+                feature.style.transition = 'all 0.6s ease';
+                observer.observe(feature);
+            });
+            
+            cards.forEach(card => {
+                card.style.opacity = 0;
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'all 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
