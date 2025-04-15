@@ -504,6 +504,112 @@
             -webkit-text-fill-color: transparent;
             margin-bottom: 0.5rem;
         }
+        
+        /* Estilos para las nuevas secciones */
+        .tech-section {
+            padding: 5rem 0;
+            background-color: var(--light-pastel);
+            margin: 4rem 0;
+            border-radius: 16px;
+        }
+        
+        .tech-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 40px rgba(109, 93, 122, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            height: 100%;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        
+        .tech-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 50px rgba(109, 93, 122, 0.12);
+        }
+        
+        .tech-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--light-pastel);
+        }
+        
+        .tech-icon {
+            font-size: 2.5rem;
+            margin-right: 1.5rem;
+            background: linear-gradient(135deg, var(--primary-pastel) 0%, var(--secondary-pastel) 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .tech-title {
+            margin-bottom: 0;
+        }
+        
+        .tech-features {
+            margin: 2rem 0;
+        }
+        
+        .tech-features li {
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 1.75rem;
+        }
+        
+        .tech-features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--primary-pastel);
+            font-weight: bold;
+        }
+        
+        .code-block {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: 'Courier New', monospace;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            border-left: 4px solid var(--primary-pastel);
+        }
+        
+        .comparison-table {
+            margin: 2rem 0;
+        }
+        
+        .comparison-table th {
+            background-color: var(--dark-pastel);
+            color: white;
+        }
+        
+        .comparison-table td {
+            vertical-align: middle;
+        }
+        
+        .tech-advantages, .tech-disadvantages {
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        
+        .tech-advantages {
+            background-color: rgba(138, 232, 255, 0.1);
+            border-left: 4px solid var(--accent-pastel);
+        }
+        
+        .tech-disadvantages {
+            background-color: rgba(255, 222, 138, 0.1);
+            border-left: 4px solid var(--yellow-pastel);
+        }
+        
+        .tech-advantages h5, .tech-disadvantages h5 {
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body>
@@ -523,6 +629,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#importancia">Importancia</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#protocolos">Protocolos</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#ejemplos-api">Ejemplos</a>
@@ -688,6 +797,462 @@
             </div>
         </section>
 
+        <!-- Sección de Protocolos y Tecnologías -->
+        <section id="protocolos" class="tech-section">
+            <div class="container">
+                <h2 class="text-center mb-5 section-title">Protocolos y Tecnologías Clave</h2>
+                
+                <!-- HTTP -->
+                <div class="row mb-5" id="http">
+                    <div class="col-lg-12">
+                        <div class="tech-card">
+                            <div class="tech-header">
+                                <div class="tech-icon">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <div>
+                                    <h3 class="tech-title">HTTP (Hypertext Transfer Protocol)</h3>
+                                    <p class="text-muted mb-0">El protocolo fundamental de la web</p>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>HTTP es el protocolo de comunicación que permite la transferencia de información en la World Wide Web. Define cómo se estructuran y transmiten los mensajes entre clientes (navegadores) y servidores.</p>
+                                    
+                                    <div class="tech-advantages">
+                                        <h5><i class="fas fa-check-circle me-2"></i> Características principales:</h5>
+                                        <ul class="tech-features">
+                                            <li>Protocolo sin estado (stateless)</li>
+                                            <li>Sigue el modelo cliente-servidor</li>
+                                            <li>Utiliza métodos de petición (GET, POST, PUT, DELETE, etc.)</li>
+                                            <li>Basado en texto y fácil de depurar</li>
+                                            <li>Funciona sobre TCP/IP</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="video-container mt-4">
+                                        <div class="ratio ratio-16x9">
+                                            <iframe src="https://www.youtube.com/embed/4_-KdOLZWLs" title="Explicación de HTTP" frameborder="0" allowfullscreen></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <h5>Métodos HTTP más comunes:</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Método</th>
+                                                    <th>Descripción</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>GET</td>
+                                                    <td>Solicita una representación del recurso</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>POST</td>
+                                                    <td>Envía datos para ser procesados</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>PUT</td>
+                                                    <td>Actualiza un recurso existente</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>DELETE</td>
+                                                    <td>Elimina un recurso</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>PATCH</td>
+                                                    <td>Modifica parcialmente un recurso</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <h5 class="mt-4">Códigos de estado HTTP:</h5>
+                                    <ul class="tech-features">
+                                        <li><strong>1xx:</strong> Informativo</li>
+                                        <li><strong>2xx:</strong> Éxito (200 OK, 201 Created)</li>
+                                        <li><strong>3xx:</strong> Redirección</li>
+                                        <li><strong>4xx:</strong> Error del cliente (404 Not Found)</li>
+                                        <li><strong>5xx:</strong> Error del servidor (500 Internal Server Error)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-3">
+                                <div class="col-md-6">
+                                    <div class="alert alert-primary">
+                                        <h5><i class="fas fa-info-circle me-2"></i> HTTP/2 y HTTP/3</h5>
+                                        <p>Las versiones modernas de HTTP introducen mejoras significativas en el rendimiento, como multiplexación, compresión de cabeceras y conexiones persistentes. HTTP/3 utiliza QUIC sobre UDP para reducir la latencia.</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="alert alert-warning">
+                                        <h5><i class="fas fa-exclamation-triangle me-2"></i> HTTPS</h5>
+                                        <p>La versión segura de HTTP utiliza TLS/SSL para cifrar la comunicación, protegiendo la integridad y confidencialidad de los datos transmitidos.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SOAP -->
+                <div class="row mb-5" id="soap">
+                    <div class="col-lg-12">
+                        <div class="tech-card">
+                            <div class="tech-header">
+                                <div class="tech-icon">
+                                    <i class="fas fa-file-code"></i>
+                                </div>
+                                <div>
+                                    <h3 class="tech-title">SOAP (Simple Object Access Protocol)</h3>
+                                    <p class="text-muted mb-0">Protocolo de intercambio de información estructurada</p>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>SOAP es un protocolo basado en XML para el intercambio de información en implementaciones de servicios web. Fue diseñado para comunicación entre aplicaciones, independientemente del sistema operativo o lenguaje de programación.</p>
+                                    
+                                    <div class="tech-advantages">
+                                        <h5><i class="fas fa-check-circle me-2"></i> Ventajas:</h5>
+                                        <ul class="tech-features">
+                                            <li>Alto nivel de estandarización</li>
+                                            <li>Independiente de plataforma y lenguaje</li>
+                                            <li>Seguridad y confiabilidad integradas</li>
+                                            <li>Ideal para entornos empresariales</li>
+                                            <li>Soporte para transacciones ACID</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="tech-disadvantages">
+                                        <h5><i class="fas fa-exclamation-circle me-2"></i> Desventajas:</h5>
+                                        <ul class="tech-features">
+                                            <li>Alta sobrecarga debido al uso de XML</li>
+                                            <li>Curva de aprendizaje más pronunciada</li>
+                                            <li>Menos flexible que REST</li>
+                                            <li>Requiere más ancho de banda</li>
+                                            <li>Más complejo de implementar</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <h5>Estructura de un mensaje SOAP:</h5>
+                                    <div class="code-block">
+                                        <pre>&lt;?xml version="1.0"?&gt;
+&lt;soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope"&gt;
+  &lt;soap:Header&gt;
+    &lt;!-- Información de autenticación --&gt;
+  &lt;/soap:Header&gt;
+  &lt;soap:Body&gt;
+    &lt;m:GetStockPrice xmlns:m="http://www.example.org/stock"&gt;
+      &lt;m:StockName&gt;IBM&lt;/m:StockName&gt;
+    &lt;/m:GetStockPrice&gt;
+  &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;</pre>
+                                    </div>
+                                    
+                                    <h5 class="mt-4">Componentes clave:</h5>
+                                    <ul class="tech-features">
+                                        <li><strong>Envelope:</strong> Elemento raíz que define el mensaje</li>
+                                        <li><strong>Header:</strong> Información opcional como autenticación</li>
+                                        <li><strong>Body:</strong> Contenido principal del mensaje</li>
+                                        <li><strong>Fault:</strong> Información de errores (opcional)</li>
+                                    </ul>
+                                    
+                                    <div class="alert alert-info mt-3">
+                                        <h5><i class="fas fa-lightbulb me-2"></i> WSDL</h5>
+                                        <p>SOAP suele ir acompañado de WSDL (Web Services Description Language), un lenguaje basado en XML para describir la funcionalidad ofrecida por un servicio web.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <h5>¿Cuándo usar SOAP?</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Escenario</th>
+                                                    <th>Razón</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Aplicaciones empresariales</td>
+                                                    <td>Necesidad de alta seguridad y confiabilidad</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Transacciones financieras</td>
+                                                    <td>Soporte para transacciones ACID</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Sistemas legacy</td>
+                                                    <td>Compatibilidad con sistemas antiguos</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Operaciones complejas</td>
+                                                    <td>Mensajes estructurados con múltiples operaciones</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- REST -->
+                <div class="row mb-5" id="rest">
+                    <div class="col-lg-12">
+                        <div class="tech-card">
+                            <div class="tech-header">
+                                <div class="tech-icon">
+                                    <i class="fas fa-network-wired"></i>
+                                </div>
+                                <div>
+                                    <h3 class="tech-title">REST (Representational State Transfer)</h3>
+                                    <p class="text-muted mb-0">Arquitectura para sistemas distribuidos</p>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>REST es un estilo arquitectónico para diseñar sistemas de red, basado en HTTP. A diferencia de SOAP, REST no es un protocolo sino un conjunto de principios y restricciones que definen cómo deben interactuar los recursos.</p>
+                                    
+                                    <div class="tech-advantages">
+                                        <h5><i class="fas fa-check-circle me-2"></i> Principios REST:</h5>
+                                        <ul class="tech-features">
+                                            <li><strong>Cliente-Servidor:</strong> Separación de responsabilidades</li>
+                                            <li><strong>Sin estado:</strong> Cada petición contiene toda la información necesaria</li>
+                                            <li><strong>Cacheable:</strong> Las respuestas pueden ser cacheadas</li>
+                                            <li><strong>Interfaz uniforme:</strong> Uso consistente de métodos HTTP</li>
+                                            <li><strong>Sistema en capas:</strong> Jerarquía de componentes</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="video-container mt-4">
+                                        <div class="ratio ratio-16x9">
+                                            <iframe src="https://www.youtube.com/embed/7YcW25PHnAA" title="Explicación de REST" frameborder="0" allowfullscreen></iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <h5>Comparación REST vs SOAP:</h5>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered comparison-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Característica</th>
+                                                    <th>REST</th>
+                                                    <th>SOAP</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>Formato</td>
+                                                    <td>JSON (generalmente)</td>
+                                                    <td>XML</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Protocolo</td>
+                                                    <td>HTTP</td>
+                                                    <td>HTTP, SMTP, TCP, etc.</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Rendimiento</td>
+                                                    <td>Mayor (menos sobrecarga)</td>
+                                                    <td>Menor (más sobrecarga)</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Seguridad</td>
+                                                    <td>HTTPS + OAuth/JWT</td>
+                                                    <td>WS-Security integrado</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Flexibilidad</td>
+                                                    <td>Alta</td>
+                                                    <td>Baja</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                    <h5 class="mt-4">Ejemplo de petición REST:</h5>
+                                    <div class="code-block">
+                                        <pre>GET /api/users/123 HTTP/1.1
+Host: example.com
+Accept: application/json
+Authorization: Bearer abc123...</pre>
+                                    </div>
+                                    
+                                    <div class="code-block mt-2">
+                                        <pre>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+  "id": 123,
+  "name": "John Doe",
+  "email": "john@example.com"
+}</pre>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <h5>Buenas prácticas para APIs REST:</h5>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul class="tech-features">
+                                                <li>Usar sustantivos en plural para recursos (/users)</li>
+                                                <li>Utilizar correctamente los métodos HTTP</li>
+                                                <li>Versionar la API (/v1/users)</li>
+                                                <li>Usar filtros, ordenación y paginación</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul class="tech-features">
+                                                <li>Manejar errores con códigos HTTP apropiados</li>
+                                                <li>Proporcionar documentación clara</li>
+                                                <li>Usar HTTPS para todas las comunicaciones</li>
+                                                <li>Implementar autenticación adecuada</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- JWT -->
+                <div class="row" id="jwt">
+                    <div class="col-lg-12">
+                        <div class="tech-card">
+                            <div class="tech-header">
+                                <div class="tech-icon">
+                                    <i class="fas fa-key"></i>
+                                </div>
+                                <div>
+                                    <h3 class="tech-title">JWT (JSON Web Token)</h3>
+                                    <p class="text-muted mb-0">Estándar para autenticación y autorización</p>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p>JWT es un estándar abierto (RFC 7519) que define un método compacto y autónomo para transmitir información entre partes como un objeto JSON. Es ampliamente utilizado en autenticación y autorización en APIs REST.</p>
+                                    
+                                    <div class="tech-advantages">
+                                        <h5><i class="fas fa-check-circle me-2"></i> Beneficios:</h5>
+                                        <ul class="tech-features">
+                                            <li><strong>Compacto:</strong> Puede enviarse en URLs, POST o headers</li>
+                                            <li><strong>Autocontenido:</strong> Contiene toda la información necesaria</li>
+                                            <li><strong>Seguro:</strong> Firmado digitalmente (HMAC o RSA)</li>
+                                            <li><strong>Sin estado:</strong> Ideal para arquitecturas REST</li>
+                                            <li><strong>Interoperable:</strong> Soporte en múltiples lenguajes</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <div class="alert alert-info mt-3">
+                                        <h5><i class="fas fa-lightbulb me-2"></i> Flujo de autenticación con JWT:</h5>
+                                        <ol>
+                                            <li>Cliente envía credenciales al servidor</li>
+                                            <li>Servidor valida credenciales y genera JWT</li>
+                                            <li>JWT es devuelto al cliente</li>
+                                            <li>Cliente incluye JWT en cabeceras de peticiones</li>
+                                            <li>Servidor verifica JWT antes de procesar</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <h5>Estructura de un JWT:</h5>
+                                    <div class="code-block">
+                                        <pre>header.payload.signature
+
+// Ejemplo:
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.
+eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.
+SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</pre>
+                                    </div>
+                                    
+                                    <div class="row mt-3">
+                                        <div class="col-md-6">
+                                            <h5>Header:</h5>
+                                            <div class="code-block">
+                                                <pre>{
+  "alg": "HS256",
+  "typ": "JWT"
+}</pre>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h5>Payload:</h5>
+                                            <div class="code-block">
+                                                <pre>{
+  "sub": "1234567890",
+  "name": "John Doe",
+  "iat": 1516239022
+}</pre>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <h5 class="mt-3">Tipos de claims:</h5>
+                                    <ul class="tech-features">
+                                        <li><strong>Registered:</strong> Campos estándar (iss, exp, sub, etc.)</li>
+                                        <li><strong>Public:</strong> Definidos por la IANA</li>
+                                        <li><strong>Private:</strong> Definidos por el usuario</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            
+                            <div class="row mt-3">
+                                <div class="col-md-12">
+                                    <h5>Implementación segura de JWT:</h5>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <ul class="tech-features">
+                                                <li>Usar algoritmos fuertes (HS256, RS256)</li>
+                                                <li>Establecer tiempos de expiración cortos</li>
+                                                <li>Almacenar tokens de forma segura</li>
+                                                <li>Implementar renovación de tokens</li>
+                                            </ul>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <ul class="tech-features">
+                                                <li>Validar todos los claims relevantes</li>
+                                                <li>Usar HTTPS en todas las comunicaciones</li>
+                                                <li>Considerar almacenamiento en HttpOnly cookies</li>
+                                                <li>Implementar revocación de tokens</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="alert alert-warning mt-3">
+                                        <h5><i class="fas fa-exclamation-triangle me-2"></i> Consideraciones de seguridad:</h5>
+                                        <p>JWT no cifra la información, solo la firma. Para datos sensibles, considere cifrado adicional. Los tokens no pueden ser revocados individualmente sin mecanismos adicionales.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Features Section -->
         <section id="caracteristicas" class="my-5 py-4">
             <h2 class="text-center mb-5 section-title">Características Principales</h2>
@@ -802,16 +1367,6 @@
 
     </div> 
 
-    <!-- Footer -->
-    <footer class="footer">
-        <div class="container text-center">
-            <h3 class="mb-4">Explora el poder de las Web APIs</h3>
-            <div class="social-icons mb-4">
-                <a href="#" class="text-white me-3"><i class="fab fa-github fa-2x"></i></a>
-                <a href="#" class="text-white me-3"><i class="fab fa-twitter fa-2x"></i></a>
-                <a href="#" class="text-white"><i class="fab fa-linkedin fa-2x"></i></a>
-    </footer>
-
     <!-- Modal de Resumen -->
     <div class="modal fade summary-modal" id="summaryModal" tabindex="-1" aria-labelledby="summaryModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -906,7 +1461,7 @@
         // Efecto de animación al hacer scroll
         document.addEventListener('DOMContentLoaded', function() {
             const features = document.querySelectorAll('.feature-box');
-            const cards = document.querySelectorAll('.definition-card, .info-card');
+            const cards = document.querySelectorAll('.definition-card, .info-card, .tech-card');
             
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -929,6 +1484,17 @@
                 card.style.transform = 'translateY(20px)';
                 card.style.transition = 'all 0.6s ease';
                 observer.observe(card);
+            });
+            
+            // Smooth scroll para enlaces internos
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
             });
         });
     </script>
